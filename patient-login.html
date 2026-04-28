@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Login - Healio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #0a0e27 0%, #16213e 50%, #0f1423 100%);
+    }
+
+    .auth-box {
+      background: rgba(22, 33, 62, 0.9);
+      border: 2px solid rgba(30, 144, 255, 0.3);
+      border-radius: 15px;
+      padding: 50px;
+      max-width: 400px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .auth-header i {
+      font-size: 50px;
+      color: #1e90ff;
+      margin-bottom: 15px;
+    }
+
+    .auth-header h1 {
+      font-size: 28px;
+      color: #87ceeb;
+      margin-bottom: 8px;
+    }
+
+    .auth-header p {
+      color: #a0a0c0;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #87ceeb;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(30, 144, 255, 0.3);
+      border-radius: 6px;
+      color: #e0e0ff;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #1e90ff;
+      box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .form-group input::placeholder {
+      color: #6a6a8a;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background: linear-gradient(135deg, #1e90ff, #87ceeb);
+      border: none;
+      border-radius: 6px;
+      color: #0a0e27;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(30, 144, 255, 0.4);
+    }
+
+    .login-button:hover {
+      box-shadow: 0 0 25px rgba(30, 144, 255, 0.7);
+      transform: scale(1.02);
+    }
+
+    .form-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    .form-links a {
+      color: #87ceeb;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-links a:hover {
+      color: #1e90ff;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .back-link a {
+      color: #87ceeb;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .back-link a:hover {
+      color: #1e90ff;
+      transform: translateX(-5px);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ECG Background -->
+<svg class="ecg-bg" viewBox="0 0 1000 100">
+  <defs>
+    <linearGradient id="ecgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e90ff;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#87ceeb;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#1e90ff;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+  <polyline class="ecg-line" points="0,50 50,50 60,40 70,60 80,50 130,50 140,45 150,55 160,50 210,50 220,30 230,70 240,50 290,50 300,50 350,50 400,50 450,50 500,50 550,50 600,50 650,50 700,50 750,50 800,50 850,50 900,50 950,50 1000,50" fill="none" stroke="url(#ecgGradient)" stroke-width="2"/>
+</svg>
+
+<div class="auth-page">
+  <div class="auth-box">
+    <div class="auth-header">
+      <i class="fas fa-user-injured"></i>
+      <h1>Patient Login</h1>
+      <p>Access Your Health Portal</p>
+    </div>
+
+    <form onsubmit="event.preventDefault(); patientLoginForm();">
+      <div class="form-group">
+        <label for="pname"><i class="fas fa-user"></i> Full Name</label>
+        <input type="text" id="pname" placeholder="Enter your full name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="pemail"><i class="fas fa-envelope"></i> Email</label>
+        <input type="email" id="pemail" placeholder="Enter your email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="ppassword"><i class="fas fa-lock"></i> Password</label>
+        <input type="password" id="ppassword" placeholder="Enter your password" required />
+      </div>
+
+      <button type="submit" class="login-button">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+    </form>
+
+    <div class="form-links">
+      <a href="#"><i class="fas fa-key"></i> Forgot Password?</a>
+      <a href="patient-signup.html"><i class="fas fa-user-plus"></i> Create Account</a>
+    </div>
+
+    <div class="back-link">
+      <a href="login.html"><i class="fas fa-arrow-left"></i> Back to Login Portal</a>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+function patientLoginForm() {
+  const name = document.getElementById("pname").value.trim();
+  const email = document.getElementById("pemail").value.trim();
+  const password = document.getElementById("ppassword").value.trim();
+
+  if(!name || !email || !password) {
+    alert("All fields are required");
+    return;
+  }
+
+  localStorage.setItem("patient", name);
+  localStorage.setItem("patientEmail", email);
+  window.location.href = "patient-dashboard.html";
+}
+</script>
+</body>
+</html>
+
+

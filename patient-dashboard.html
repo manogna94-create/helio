@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Dashboard - Healio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .dashboard-nav {
+      background: rgba(15, 20, 35, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid rgba(30, 144, 255, 0.2);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .dashboard-nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      color: #87ceeb;
+      font-weight: 600;
+    }
+
+    .dashboard-nav .logo i {
+      color: #1e90ff;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    .dashboard-nav-right {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .user-info {
+      text-align: right;
+      color: #a0a0c0;
+      font-size: 14px;
+    }
+
+    .user-info .name {
+      color: #87ceeb;
+      font-weight: 600;
+    }
+
+    .btn-logout {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #ff6464, #ff4444);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .btn-logout:hover {
+      box-shadow: 0 0 15px rgba(255, 100, 100, 0.5);
+      transform: scale(1.05);
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .dashboard-header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .dashboard-header h1 {
+      font-size: 36px;
+      color: #87ceeb;
+      margin-bottom: 8px;
+    }
+
+    .dashboard-header p {
+      color: #a0a0c0;
+      font-size: 16px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-section {
+      background: rgba(22, 33, 62, 0.8);
+      border: 2px solid rgba(30, 144, 255, 0.2);
+      border-radius: 12px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+    }
+
+    .dashboard-section h2 {
+      color: #87ceeb;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(30, 144, 255, 0.3);
+      border-radius: 6px;
+      color: #e0e0ff;
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #1e90ff;
+      box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+    }
+
+    .search-box button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #1e90ff, #87ceeb);
+      border: none;
+      border-radius: 6px;
+      color: #0a0e27;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+    }
+
+    .search-box button:hover {
+      box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
+      transform: scale(1.05);
+    }
+
+    .results-box {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .result {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid #1e90ff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .result:hover {
+      background: rgba(30, 144, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    .result h3 {
+      color: #87ceeb;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .result p {
+      color: #a0a0c0;
+      font-size: 13px;
+      margin: 4px 0;
+    }
+
+    .result button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #1e90ff, #87ceeb);
+      border: none;
+      border-radius: 4px;
+      color: #0a0e27;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .result button:hover {
+      box-shadow: 0 0 15px rgba(30, 144, 255, 0.4);
+      transform: scale(1.05);
+    }
+
+    .appointment-item {
+      background: rgba(30, 144, 255, 0.05);
+      border-left: 4px solid #1e90ff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      color: #a0a0c0;
+      font-size: 14px;
+    }
+
+    .appointment-item p {
+      margin: 6px 0;
+    }
+
+    .appointment-item b {
+      color: #87ceeb;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #6a6a8a;
+      padding: 40px 20px;
+      font-size: 14px;
+    }
+
+    .health-tips {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 4px solid #87ceeb;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      color: #a0a0c0;
+      font-size: 13px;
+    }
+
+    .health-tips strong {
+      color: #87ceeb;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-nav {
+        padding: 15px 20px;
+      }
+
+      .dashboard-container {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ECG Background -->
+<svg class="ecg-bg" viewBox="0 0 1000 100">
+  <defs>
+    <linearGradient id="ecgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e90ff;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#87ceeb;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#1e90ff;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+  <polyline class="ecg-line" points="0,50 50,50 60,40 70,60 80,50 130,50 140,45 150,55 160,50 210,50 220,30 230,70 240,50 290,50 300,50 350,50 400,50 450,50 500,50 550,50 600,50 650,50 700,50 750,50 800,50 850,50 900,50 950,50 1000,50" fill="none" stroke="url(#ecgGradient)" stroke-width="2"/>
+</svg>
+
+<!-- Navigation -->
+<div class="dashboard-nav">
+  <div class="logo">
+    <i class="fas fa-heartbeat"></i>
+    <span>Healio</span>
+  </div>
+  <div class="dashboard-nav-right">
+    <div class="user-info">
+      <div class="name" id="patientNameDisplay">Patient</div>
+      <div style="font-size: 12px;">Patient Portal</div>
+    </div>
+    <button class="btn-logout" onclick="logoutPatient()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
+</div>
+
+<!-- Dashboard Content -->
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1><i class="fas fa-stethoscope"></i> Patient Dashboard</h1>
+    <p id="welcomePatient">Welcome to your health management portal</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Left Column: Hospital Search -->
+    <div>
+      <div class="dashboard-section">
+        <h2><i class="fas fa-hospital"></i> Find Hospitals</h2>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search by service (fever, dental, pregnancy...)" />
+          <button onclick="searchHospital()"><i class="fas fa-search"></i> Search</button>
+        </div>
+        <div class="results-box" id="results">
+          <p class="empty-state">Enter a service to search for hospitals</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Appointments & Records -->
+    <div>
+      <div class="dashboard-section">
+        <h2><i class="fas fa-calendar-check"></i> My Appointments</h2>
+        <div id="meetingBox">
+          <p class="empty-state">No appointments scheduled</p>
+        </div>
+      </div>
+
+      <div class="dashboard-section" style="margin-top: 20px;">
+        <h2><i class="fas fa-lightbulb"></i> Health Tips</h2>
+        <div class="health-tips">
+          <strong>ðŸ’§ Stay Hydrated</strong><br>Drink at least 8 glasses of water daily for optimal health
+        </div>
+        <div class="health-tips">
+          <strong>ðŸƒ Regular Exercise</strong><br>30 minutes of daily exercise reduces health risks significantly
+        </div>
+        <div class="health-tips">
+          <strong>ðŸ˜´ Quality Sleep</strong><br>7-8 hours of sleep improves immunity and metabolism
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medical Records -->
+  <div class="dashboard-section">
+    <h2><i class="fas fa-file-medical"></i> Medical Records</h2>
+    <div id="medicalRecords">
+      <p class="empty-state">No medical records available</p>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+function checkPatientAuth() {
+  const patient = localStorage.getItem("patient");
+  if(!patient) {
+    window.location.href = "patient-login.html";
+    return false;
+  }
+  document.getElementById("patientNameDisplay").textContent = patient;
+  document.getElementById("welcomePatient").textContent = `Welcome, ${patient}! Here's your health dashboard`;
+  loadPatientData();
+  return true;
+}
+
+function logoutPatient() {
+  if(confirm("Are you sure you want to logout?")) {
+    localStorage.removeItem("patient");
+    localStorage.removeItem("patientEmail");
+    window.location.href = "patient-login.html";
+  }
+}
+
+window.onload = function() {
+  checkPatientAuth();
+};
+</script>
+</body>
+</html>
+
+

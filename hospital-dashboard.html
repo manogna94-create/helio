@@ -1,0 +1,481 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospital Dashboard - Healio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .dashboard-nav {
+      background: rgba(15, 20, 35, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid rgba(30, 144, 255, 0.2);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .dashboard-nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      color: #87ceeb;
+      font-weight: 600;
+    }
+
+    .dashboard-nav .logo i {
+      color: #1e90ff;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    .dashboard-nav-right {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .user-info {
+      text-align: right;
+      color: #a0a0c0;
+      font-size: 14px;
+    }
+
+    .user-info .name {
+      color: #87ceeb;
+      font-weight: 600;
+    }
+
+    .btn-logout {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #ff6464, #ff4444);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .btn-logout:hover {
+      box-shadow: 0 0 15px rgba(255, 100, 100, 0.5);
+      transform: scale(1.05);
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .dashboard-header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .dashboard-header h1 {
+      font-size: 36px;
+      color: #87ceeb;
+      margin-bottom: 8px;
+    }
+
+    .dashboard-header p {
+      color: #a0a0c0;
+      font-size: 16px;
+    }
+
+    .tab-navigation {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid rgba(30, 144, 255, 0.2);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 12px 24px;
+      background: transparent;
+      border: none;
+      color: #a0a0c0;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: #87ceeb;
+    }
+
+    .tab-btn.active {
+      color: #1e90ff;
+      border-bottom-color: #1e90ff;
+      box-shadow: 0 0 15px rgba(30, 144, 255, 0.3);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .dashboard-section {
+      background: rgba(22, 33, 62, 0.8);
+      border: 2px solid rgba(30, 144, 255, 0.2);
+      border-radius: 12px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+      margin-bottom: 20px;
+    }
+
+    .dashboard-section h2 {
+      color: #87ceeb;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #87ceeb;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(30, 144, 255, 0.3);
+      border-radius: 6px;
+      color: #e0e0ff;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #1e90ff;
+      box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .btn-primary {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #1e90ff, #87ceeb);
+      border: none;
+      border-radius: 6px;
+      color: #0a0e27;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+      font-size: 14px;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
+      transform: scale(1.05);
+    }
+
+    .appointment-item,
+    .record-item {
+      background: rgba(30, 144, 255, 0.05);
+      border-left: 4px solid #1e90ff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      color: #a0a0c0;
+      font-size: 14px;
+    }
+
+    .appointment-item p,
+    .record-item p {
+      margin: 6px 0;
+    }
+
+    .appointment-item b,
+    .record-item b {
+      color: #87ceeb;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #6a6a8a;
+      padding: 40px 20px;
+      font-size: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .tab-navigation {
+        flex-wrap: wrap;
+      }
+
+      .dashboard-nav {
+        padding: 15px 20px;
+      }
+
+      .dashboard-container {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ECG Background -->
+<svg class="ecg-bg" viewBox="0 0 1000 100">
+  <defs>
+    <linearGradient id="ecgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e90ff;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#87ceeb;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#1e90ff;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+  <polyline class="ecg-line" points="0,50 50,50 60,40 70,60 80,50 130,50 140,45 150,55 160,50 210,50 220,30 230,70 240,50 290,50 300,50 350,50 400,50 450,50 500,50 550,50 600,50 650,50 700,50 750,50 800,50 850,50 900,50 950,50 1000,50" fill="none" stroke="url(#ecgGradient)" stroke-width="2"/>
+</svg>
+
+<!-- Navigation -->
+<div class="dashboard-nav">
+  <div class="logo">
+    <i class="fas fa-heartbeat"></i>
+    <span>Healio</span>
+  </div>
+  <div class="dashboard-nav-right">
+    <div class="user-info">
+      <div class="name" id="hospitalNameDisplay">Hospital</div>
+      <div style="font-size: 12px;">Hospital Portal</div>
+    </div>
+    <button class="btn-logout" onclick="logoutHospital()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
+</div>
+
+<!-- Dashboard Content -->
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1><i class="fas fa-clinic-medical"></i> Hospital Dashboard</h1>
+    <p id="welcomeHospital">Welcome to your hospital management portal</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button class="tab-btn active" onclick="switchTab('appointments')">
+      <i class="fas fa-calendar-check"></i> Appointments
+    </button>
+    <button class="tab-btn" onclick="switchTab('profile')">
+      <i class="fas fa-hospital"></i> Profile
+    </button>
+    <button class="tab-btn" onclick="switchTab('records')">
+      <i class="fas fa-file-medical"></i> Patient Records
+    </button>
+    <button class="tab-btn" onclick="switchTab('prescriptions')">
+      <i class="fas fa-prescription"></i> Prescriptions
+    </button>
+  </div>
+
+  <!-- Appointments Tab -->
+  <div id="appointments-tab" class="tab-content active">
+    <div class="dashboard-section">
+      <h2><i class="fas fa-calendar-check"></i> Incoming Appointments</h2>
+      <div id="hospitalAppointments">
+        <p class="empty-state">No appointments scheduled</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Tab -->
+  <div id="profile-tab" class="tab-content">
+    <div class="dashboard-section">
+      <h2><i class="fas fa-cog"></i> Hospital Profile Management</h2>
+      <form onsubmit="event.preventDefault(); saveHospitalProfile();">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="profileHospitalName"><i class="fas fa-hospital"></i> Hospital Name</label>
+            <input type="text" id="profileHospitalName" placeholder="Hospital name" required />
+          </div>
+          <div class="form-group">
+            <label for="profileHospitalEmail"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="profileHospitalEmail" placeholder="Hospital email" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="profileHospitalServices"><i class="fas fa-list"></i> Services (Comma Separated)</label>
+          <textarea id="profileHospitalServices" placeholder="fever, cold, diabetes, cardiology..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="profileHospitalAddress"><i class="fas fa-map-marker-alt"></i> Address</label>
+          <input type="text" id="profileHospitalAddress" placeholder="Hospital address" />
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="profileHospitalDistance"><i class="fas fa-road"></i> Distance (km)</label>
+            <input type="number" id="profileHospitalDistance" placeholder="Distance from city center" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label for="profileHospitalPhone"><i class="fas fa-phone"></i> Phone</label>
+            <input type="tel" id="profileHospitalPhone" placeholder="Contact phone number" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <i class="fas fa-save"></i> Save Profile
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Patient Records Tab -->
+  <div id="records-tab" class="tab-content">
+    <div class="dashboard-section">
+      <h2><i class="fas fa-file-medical"></i> Patient Medical Records</h2>
+      <div id="patientRecordsBox">
+        <p class="empty-state">No patient records available</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prescriptions Tab -->
+  <div id="prescriptions-tab" class="tab-content">
+    <div class="grid-2">
+      <!-- Issue Prescription Form -->
+      <div class="dashboard-section">
+        <h2><i class="fas fa-prescription"></i> Issue Prescription</h2>
+        <form onsubmit="event.preventDefault(); issuePrescription();">
+          <div class="form-group">
+            <label for="prescPatientName"><i class="fas fa-user"></i> Patient Name</label>
+            <input type="text" id="prescPatientName" placeholder="Patient name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="prescDiagnosis"><i class="fas fa-stethoscope"></i> Diagnosis</label>
+            <textarea id="prescDiagnosis" placeholder="Medical diagnosis" rows="3" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="prescMedications"><i class="fas fa-pills"></i> Medications</label>
+            <textarea id="prescMedications" placeholder="List of medications and dosages" rows="3" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <i class="fas fa-check"></i> Issue Prescription
+          </button>
+        </form>
+      </div>
+
+      <!-- Issued Prescriptions List -->
+      <div class="dashboard-section">
+        <h2><i class="fas fa-list"></i> Issued Prescriptions</h2>
+        <div id="issuedPrescriptions">
+          <p class="empty-state">No prescriptions issued</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+function checkHospitalAuth() {
+  const hospital = localStorage.getItem("hospital");
+  if(!hospital) {
+    window.location.href = "hospital-login.html";
+    return false;
+  }
+  document.getElementById("hospitalNameDisplay").textContent = hospital;
+  document.getElementById("welcomeHospital").textContent = `Welcome, ${hospital}! Manage your hospital here`;
+  loadHospitalData();
+  return true;
+}
+
+function logoutHospital() {
+  if(confirm("Are you sure you want to logout?")) {
+    localStorage.removeItem("hospital");
+    localStorage.removeItem("hospitalEmail");
+    localStorage.removeItem("currentHospital");
+    window.location.href = "hospital-login.html";
+  }
+}
+
+function switchTab(tabName) {
+  // Remove active class from all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  // Add active class to selected tab
+  document.getElementById(`${tabName}-tab`).classList.add('active');
+  event.target.classList.add('active');
+
+  // Load data for the tab
+  const hospitalName = localStorage.getItem('hospital');
+  if(tabName === 'appointments') {
+    loadHospitalAppointments(hospitalName);
+  } else if(tabName === 'prescriptions') {
+    loadIssuedPrescriptions(hospitalName);
+  } else if(tabName === 'profile') {
+    loadHospitalProfile();
+  }
+}
+
+window.onload = function() {
+  checkHospitalAuth();
+};
+</script>
+</body>
+</html>
+
+

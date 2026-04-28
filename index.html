@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healio - Professional Healthcare Management</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ECG Pulse Background -->
+<svg class="ecg-bg" viewBox="0 0 1000 100">
+  <defs>
+    <linearGradient id="ecgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e90ff;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#87ceeb;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#1e90ff;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+  <polyline class="ecg-line" points="0,50 50,50 60,40 70,60 80,50 130,50 140,45 150,55 160,50 210,50 220,30 230,70 240,50 290,50 300,50 350,50 400,50 450,50 500,50 550,50 600,50 650,50 700,50 750,50 800,50 850,50 900,50 950,50 1000,50" fill="none" stroke="url(#ecgGradient)" stroke-width="2"/>
+</svg>
+
+<!-- Navigation -->
+<nav class="professional-nav">
+  <div class="nav-left">
+    <div class="logo">
+      <i class="fas fa-heartbeat"></i>
+      <span>Healio</span>
+    </div>
+  </div>
+  <ul id="menu" class="nav-menu">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="login.html">Login/SignUp</a></li>
+  </ul>
+  <div class="menuBtn" onclick="toggleMenu()">
+    <i class="fas fa-bars"></i>
+  </div>
+</nav>
+
+<!-- Public Area -->
+<div id="publicArea">
+  <section id="hero" class="hero-section">
+    <div class="hero-content">
+      <h1>Professional Healthcare Management</h1>
+      <p>Connect patients with hospitals, manage appointments, and deliver exceptional care</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="openModal('\''patientModal'\'')"><i class="fas fa-user"></i> Patient Portal</button>
+        <button class="btn btn-secondary" onclick="openModal('\''hospitalModal'\'')"><i class="fas fa-hospital"></i> Hospital Portal</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features-section">
+    <h2>Platform Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <i class="fas fa-search"></i>
+        <h3>Hospital Search</h3>
+        <p>Advanced search by specialization and location</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-calendar-check"></i>
+        <h3>Appointment Management</h3>
+        <p>Real-time booking and scheduling system</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-file-medical"></i>
+        <h3>Medical Records</h3>
+        <p>Secure storage of patient health history</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-pills"></i>
+        <h3>Prescriptions</h3>
+        <p>Digital prescription management</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-chart-line"></i>
+        <h3>Health Analytics</h3>
+        <p>Track health metrics and trends</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-phone"></i>
+        <h3>24/7 Support</h3>
+        <p>Round-the-clock customer assistance</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Patient Dashboard -->
+<section id="patientDashboard" class="dashboard hidden">
+  <div class="dashboard-header">
+    <div class="header-left">
+      <h2 id="welcomePatient" class="welcome-text"></h2>
+      <p class="header-subtitle">Patient Health Management Portal</p>
+    </div>
+    <button class="btn btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </div>
+
+  <div class="dashboard-content">
+    <div class="dashboard-left">
+      <!-- Hospital Search -->
+      <div class="card search-card">
+        <h3><i class="fas fa-hospital"></i> Find Hospitals</h3>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search by service (fever, surgery, dental...)" />
+          <button class="btn btn-search" onclick="searchHospital()"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+
+      <!-- Search Results -->
+      <div id="results" class="results-container"></div>
+    </div>
+
+    <div class="dashboard-right">
+      <!-- Scheduled Appointments -->
+      <div class="card appointments-card">
+        <h3><i class="fas fa-calendar-check"></i> My Appointments</h3>
+        <div id="meetingBox" class="appointments-list">
+          <p class="empty-state">No appointments scheduled</p>
+        </div>
+      </div>
+
+      <!-- Health Tips -->
+      <div class="card health-tips-card">
+        <h3><i class="fas fa-lightbulb"></i> Health Tips</h3>
+        <div class="tips-container">
+          <div class="tip">
+            <i class="fas fa-droplet"></i>
+            <p>Stay hydrated - drink 8 glasses of water daily</p>
+          </div>
+          <div class="tip">
+            <i class="fas fa-running"></i>
+            <p>Exercise for 30 minutes daily</p>
+          </div>
+          <div class="tip">
+            <i class="fas fa-moon"></i>
+            <p>Get 7-8 hours of quality sleep</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medical Records -->
+      <div class="card records-card">
+        <h3><i class="fas fa-file-medical"></i> Medical Records</h3>
+        <div id="medicalRecords" class="records-list">
+          <p class="empty-state">No records available</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hospital Dashboard -->
+<section id="hospitalDashboard" class="dashboard hidden">
+  <div class="dashboard-header">
+    <div class="header-left">
+      <h2 id="welcomeHospital" class="welcome-text"></h2>
+      <p class="header-subtitle">Hospital Management Portal</p>
+    </div>
+    <button class="btn btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </div>
+
+  <div class="dashboard-tabs">
+    <button class="tab-btn active" onclick="switchTab('\''appointments'\'')"><i class="fas fa-calendar"></i> Appointments</button>
+    <button class="tab-btn" onclick="switchTab('\''profile'\'')"><i class="fas fa-hospital"></i> Profile</button>
+    <button class="tab-btn" onclick="switchTab('\''records'\'')"><i class="fas fa-files"></i> Patient Records</button>
+    <button class="tab-btn" onclick="switchTab('\''prescriptions'\'')"><i class="fas fa-prescription-bottle"></i> Prescriptions</button>
+  </div>
+
+  <div class="dashboard-content hospital-content">
+    <div id="appointments-tab" class="tab-content active">
+      <div class="card">
+        <h3><i class="fas fa-calendar-check"></i> Incoming Appointments</h3>
+        <div id="hospitalAppointments" class="appointments-list">
+          <p class="empty-state">No appointments</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="profile-tab" class="tab-content hidden">
+      <div class="card">
+        <h3><i class="fas fa-hospital"></i> Hospital Profile</h3>
+        <form id="hospitalProfileForm" onsubmit="event.preventDefault(); saveHospitalProfile()" class="profile-form">
+          <div class="form-group">
+            <label>Hospital Name</label>
+            <input type="text" id="profileHospitalName" readonly class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="profileHospitalEmail" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Services (comma separated)</label>
+            <input type="text" id="profileHospitalServices" placeholder="fever, surgery, cardiology" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" id="profileHospitalAddress" placeholder="City Center, Street Name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Distance (km)</label>
+            <input type="number" step="0.1" id="profileHospitalDistance" placeholder="5.0" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Contact Number</label>
+            <input type="tel" id="profileHospitalPhone" placeholder="+1234567890" class="form-input" />
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Profile</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="records-tab" class="tab-content hidden">
+      <div class="card">
+        <h3><i class="fas fa-file-medical"></i> Patient Records</h3>
+        <div id="hospitalRecords" class="records-list">
+          <p class="empty-state">No patient records</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="prescriptions-tab" class="tab-content hidden">
+      <div class="card">
+        <h3><i class="fas fa-prescription-bottle"></i> Issue Prescription</h3>
+        <form id="prescriptionForm" onsubmit="event.preventDefault(); issuePrescription()" class="profile-form">
+          <div class="form-group">
+            <label>Patient Name</label>
+            <input type="text" id="prescPatientName" placeholder="Enter patient name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Diagnosis</label>
+            <input type="text" id="prescDiagnosis" placeholder="Medical condition" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Medications</label>
+            <textarea id="prescMedications" placeholder="List medications and dosage" class="form-input" rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Issue Prescription</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Issued Prescriptions</h3>
+        <div id="issuedPrescriptions" class="records-list">
+          <p class="empty-state">No prescriptions issued</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Patient Login Modal -->
+<div class="modal" id="patientModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2><i class="fas fa-user-md"></i> Patient Portal</h2>
+      <span class="modal-close" onclick="closeModal('\''patientModal'\'')">&times;</span>
+    </div>
+    <form onsubmit="event.preventDefault(); patientLogin()" class="modal-form">
+      <input type="text" id="pname" placeholder="Full Name" required />
+      <input type="email" id="pemail" placeholder="Email Address" required />
+      <input type="password" id="ppassword" placeholder="Password" required />
+      <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-sign-in-alt"></i> Login</button>
+    </form>
+  </div>
+</div>
+
+<!-- Hospital Login Modal -->
+<div class="modal" id="hospitalModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2><i class="fas fa-hospital"></i> Hospital Portal</h2>
+      <span class="modal-close" onclick="closeModal('\''hospitalModal'\'')">&times;</span>
+    </div>
+    <form onsubmit="event.preventDefault(); hospitalLogin()" class="modal-form">
+      <input type="text" id="hname" placeholder="Hospital Name" required />
+      <input type="email" id="hemail" placeholder="Email Address" required />
+      <input type="password" id="hpassword" placeholder="Password" required />
+      <input type="text" id="hservices" placeholder="Services (fever, surgery, etc.)" />
+      <input type="text" id="haddress" placeholder="Address" />
+      <input type="number" id="hdistance" step="0.1" placeholder="Distance (km)" />
+      <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-sign-in-alt"></i> Login / Register</button>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+
