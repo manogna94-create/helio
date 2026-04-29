@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LunaCare AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="ws.css">
+</head>
+<body>
+
+  <div class="cursor-glow"></div>
+
+  <div class="floating floating1"></div>
+  <div class="floating floating2"></div>
+  <div class="floating floating3"></div>
+
+  <nav>
+    <div class="logo">
+      LunaCare <span>AI</span>
+    </div>
+
+    <ul>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#tracker">Tracker</a></li>
+      <li><a href="#diet">Diet</a></li>
+      <li><a href="#wellness">Wellness</a></li>
+      <li><a href="index.html">GoBACK</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+
+    <div class="hero-left">
+
+      <div class="tag">
+        Smart Women's Wellness Platform 🌸
+      </div>
+
+      <h1>
+        Your Body.
+        <br>
+        Your Rhythm.
+        <br>
+        Your Power.
+      </h1>
+
+      <p>
+        AI-powered cycle predictions, emotional wellness tracking,
+        hormone-aware diet suggestions, dynamic analytics,
+        PCOD guidance and personalized health insights.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="primary-btn" onclick="scrollToTracker()">
+          Start Tracking
+        </button>
+
+        <button class="glass-btn">
+          Explore Wellness
+        </button>
+      </div>
+
+      <div class="stats">
+
+        <div class="stat-card">
+          <h2 id="daysLeftHero">5</h2>
+          <span>Days Left</span>
+        </div>
+
+        <div class="stat-card">
+          <h2>87%</h2>
+          <span>Wellness Score</span>
+        </div>
+
+        <div class="stat-card">
+          <h2>21</h2>
+          <span>Healthy Streak</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="hero-right">
+
+      <div class="glass-panel">
+
+        <div class="cycle-ring">
+          <svg>
+            <circle cx="90" cy="90" r="70"></circle>
+            <circle cx="90" cy="90" r="70" id="progressCircle"></circle>
+          </svg>
+
+          <div class="ring-content">
+            <h2 id="ringDays">5</h2>
+            <span>days left</span>
+          </div>
+        </div>
+
+        <div class="mini-insight">
+          🌸 Ovulation expected in 8 days
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="dashboard">
+
+    <div class="section-title">
+      AI Wellness Dashboard
+    </div>
+
+    <div class="dashboard-grid">
+
+      <div class="premium-card large-card">
+        <div class="card-header">
+          <h3>Cycle Analytics</h3>
+          <span>Live</span>
+        </div>
+
+        <canvas id="cycleChart"></canvas>
+      </div>
+
+      <div class="premium-card mood-card">
+
+        <h3>Mood Tracker</h3>
+
+        <div class="moods">
+          <button onclick="setMood('😊 Happy')">😊</button>
+          <button onclick="setMood('😴 Tired')">😴</button>
+          <button onclick="setMood('😖 Cramps')">😖</button>
+          <button onclick="setMood('😌 Calm')">😌</button>
+        </div>
+
+        <div id="moodResult">
+          Today's mood: Happy 🌸
+        </div>
+
+      </div>
+
+      <div class="premium-card water-card">
+
+        <h3>Water Intake</h3>
+
+        <div class="water-progress">
+          <div id="waterFill"></div>
+        </div>
+
+        <h2 id="waterText">4 / 8 Glasses</h2>
+
+        <button onclick="increaseWater()" class="small-btn">
+          + Add Water
+        </button>
+
+      </div>
+
+      <div class="premium-card sleep-card">
+
+        <h3>Sleep Quality</h3>
+
+        <div class="sleep-circle">
+          8h
+        </div>
+
+        <p>
+          Excellent recovery and hormonal balance.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="tracker">
+
+    <div class="section-title">
+      Smart Period Predictor
+    </div>
+
+    <div class="tracker-container">
+
+      <div class="tracker-form">
+
+        <label>Last Period Date</label>
+        <input type="date" id="lastDate">
+
+        <label>Cycle Length</label>
+        <input type="number" id="cycleLength" value="28">
+
+        <label>Period Duration</label>
+        <input type="number" id="periodDuration" value="5">
+
+        <button onclick="calculatePeriod()">
+          Analyze My Cycle
+        </button>
+
+      </div>
+
+      <div class="tracker-output">
+
+        <div class="output-card">
+          <h4>Next Period</h4>
+          <h2 id="nextPeriod">--</h2>
+        </div>
+
+        <div class="output-card">
+          <h4>Ovulation</h4>
+          <h2 id="ovulation">--</h2>
+        </div>
+
+        <div class="output-card">
+          <h4>Fertility Window</h4>
+          <h2 id="fertility">--</h2>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="diet">
+
+    <div class="section-title">
+      Hormone-Aware Nutrition
+    </div>
+
+    <div class="food-grid">
+
+      <div class="food-card">
+        <div class="food-icon">🥗</div>
+        <h3>Iron Boost</h3>
+        <p>
+          Spinach, beetroot and dates improve energy and blood health.
+        </p>
+      </div>
+
+      <div class="food-card">
+        <div class="food-icon">🍫</div>
+        <h3>Cramp Relief</h3>
+        <p>
+          Dark chocolate and bananas help reduce cramps naturally.
+        </p>
+      </div>
+
+      <div class="food-card">
+        <div class="food-icon">🥑</div>
+        <h3>PCOD Balance</h3>
+        <p>
+          Avocado, protein and fiber stabilize hormones.
+        </p>
+      </div>
+
+      <div class="food-card">
+        <div class="food-icon">🥥</div>
+        <h3>Hydration</h3>
+        <p>
+          Coconut water and lemon water reduce bloating.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="wellness">
+
+    <div class="section-title">
+      Wellness Intelligence
+    </div>
+
+    <div class="wellness-grid">
+
+      <div class="well-card">
+        <h3>AI Insight</h3>
+        <p id="aiInsight">
+          Your body may need more hydration today 🌸
+        </p>
+      </div>
+
+      <div class="well-card">
+        <h3>Daily Affirmation</h3>
+        <p>
+          “Your body is powerful, intelligent and beautiful.”
+        </p>
+      </div>
+
+      <div class="well-card">
+        <h3>Pain Relief</h3>
+        <ul>
+          <li>Warm compress</li>
+          <li>Stretching</li>
+          <li>Hydration</li>
+          <li>Breathing exercises</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+    LunaCare AI 🌸 — Designed for modern wellness.
+  </footer>
+
+  <script src="ws.js"></script>
+</body>
+</html>
+```
+
+---
+
